@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:gasolina_alcool/widgets/logo.widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +16,57 @@ class MyApp extends StatelessWidget {
       title: 'Alcool ou Gasolina',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
+
+  var _gasCtrl = MoneyMaskedTextController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: ListView(
+        children: <Widget>[
+          const Logo(),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 100,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Gasolina",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontFamily: "Big shoulders Display",
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: TextFormField(
+                  controller: _gasCtrl,
+                  keyboardType: TextInputType.number,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontFamily: "Big Shoulders Display"),
+                  decoration: const InputDecoration(border: InputBorder.none),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
