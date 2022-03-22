@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:gasolina_alcool/widgets/input.widget.dart';
+import 'package:gasolina_alcool/widgets/loading-button.widget.dart';
 import 'package:gasolina_alcool/widgets/logo.widget.dart';
 
 void main() {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Alcool ou Gasolina',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.deepOrange,
       ),
       home: HomePage(),
     );
@@ -27,6 +29,7 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   var _gasCtrl = MoneyMaskedTextController();
+  var _alcCtrl = MoneyMaskedTextController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,35 +38,51 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           const Logo(),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 100,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Gasolina",
+          Container(
+            margin: EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  "Compensa utilizar X",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontFamily: "Big shoulders Display",
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 40,
+                    fontFamily: "Big Shoulders Display",
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: TextFormField(
-                  controller: _gasCtrl,
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 45,
-                      fontFamily: "Big Shoulders Display"),
-                  decoration: const InputDecoration(border: InputBorder.none),
+                SizedBox(
+                  height: 20,
                 ),
-              )
-            ],
+                LoadingButton(
+                  busy: false,
+                  func: () {},
+                  invert: true,
+                  text: "Calcular novamente",
+                )
+              ],
+            ),
+          ),
+          Input(
+            label: "Gasolina",
+            ctrl: _gasCtrl,
+          ),
+          Input(
+            label: "Álcool",
+            ctrl: _alcCtrl,
+          ),
+          LoadingButton(
+            busy: false,
+            func: () {},
+            invert: false,
+            text: "Calcular",
           ),
         ],
       ),
