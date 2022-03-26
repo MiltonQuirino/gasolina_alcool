@@ -16,43 +16,48 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _complete = false;
   var _resultText = "";
-  var gasCtrl = MoneyMaskedTextController();
-  var alcCtrl = MoneyMaskedTextController();
+  var _gasCtrl = MoneyMaskedTextController();
+  var _alcCtrl = MoneyMaskedTextController();
   var _busy = false;
+  Color _color = Colors.deepOrange;
 
   Function()? submitFunc;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: ListView(
-        children: <Widget>[
-          const Logo(),
-          _complete
-              ? Success(
-                  result: _resultText,
-                  reset: reset,
-                )
-              : SubmitForm(
-                  gasCtrl: gasCtrl,
-                  alcCtrl: alcCtrl,
-                  busy: _busy,
-                  submitFunc: calculate,
-                )
-        ],
-      ),
-    );
+        backgroundColor: Theme.of(context).primaryColor,
+        body: AnimatedContainer(
+          child: ListView(
+            children: <Widget>[
+              const Logo(),
+              _complete
+                  ? Success(
+                      result: _resultText,
+                      reset: reset,
+                    )
+                  : SubmitForm(
+                      gasCtrl: _gasCtrl,
+                      alcCtrl: _alcCtrl,
+                      busy: _busy,
+                      submitFunc: calculate,
+                    )
+            ],
+          ),
+          duration: Duration(microseconds: 1200),
+          color: _color,
+        ));
   }
 
   Future calculate() async {
     double alc =
-        double.parse(alcCtrl.text.replaceAll(new RegExp(r'[,.]'), '')) / 100;
+        double.parse(_alcCtrl.text.replaceAll(new RegExp(r'[,.]'), '')) / 100;
     double gas =
-        double.parse(gasCtrl.text.replaceAll(new RegExp(r'[,.]'), '')) / 100;
+        double.parse(_gasCtrl.text.replaceAll(new RegExp(r'[,.]'), '')) / 100;
     double res = alc / gas;
 
     setState(() {
+      _color = Colors.deepOrangeAccent;
       _complete = false;
       _busy = true;
     });
@@ -75,10 +80,11 @@ class _HomePageState extends State<HomePage> {
 
   reset() {
     setState(() {
-      alcCtrl = new MoneyMaskedTextController();
-      gasCtrl = new MoneyMaskedTextController();
+      _alcCtrl = new MoneyMaskedTextController();
+      _gasCtrl = new MoneyMaskedTextController();
       _complete = false;
       _busy = false;
+      _color = Colors.deepOrange;
     });
   }
 }
