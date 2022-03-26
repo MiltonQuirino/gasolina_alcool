@@ -26,6 +26,7 @@ class LoadingButton extends StatelessWidget {
         : Container(
             margin: const EdgeInsets.all(30),
             height: 60,
+            width: double.infinity,
             decoration: BoxDecoration(
                 color: invert
                     ? Theme.of(context).primaryColor
